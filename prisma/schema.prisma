@@ -1,0 +1,156 @@
+// Kairos - Schema do Prisma
+// Database schema para gestão de eventos e notas
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// AUTENTICAÇÃO (NextAuth.js)
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?   // Para autenticação por email/senha
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relações NextAuth
+  accounts      Account[]
+  sessions      Session[]
+
+  // Relações Kairos
+  events        Event[]
+  notes         Note[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ============================================
+// FUNCIONALIDADES KAIROS
+// ============================================
+
+enum EventPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum EventStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model Event {
+  id          String        @id @default(cuid())
+  title       String
+  description String?       @db.Text
+  startDate   DateTime
+  endDate     DateTime?
+  allDay      Boolean       @default(false)
+  location    String?
+  priority    EventPriority @default(MEDIUM)
+  status      EventStatus   @default(PENDING)
+  color       String?       // Hex color para personalização
+
+  // Recorrência
+  isRecurring Boolean       @default(false)
+  recurrence  String?       // RRULE format (iCalendar)
+
+  // Metadados
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relações
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, startDate])
+  @@index([userId, status])
+  @@map("events")
+}
+
+enum NoteType {
+  TEXT
+  CHECKLIST
+  IDEA
+  REMINDER
+}
+
+model Note {
+  id        String    @id @default(cuid())
+  title     String?
+  content   String    @db.Text
+  type      NoteType  @default(TEXT)
+  color     String?   // Hex color para personalização
+  isPinned  Boolean   @default(false)
+
+  // Associação com data (opcional)
+  date      DateTime? // Se não tiver data, é uma nota "flutuante"
+
+  // Tags para organização
+  tags      String[]  // Array de tags
+
+  // Metadados
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relações
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@index([userId, isPinned])
+  @@map("notes")
+}
