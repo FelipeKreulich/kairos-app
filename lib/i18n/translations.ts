@@ -12,7 +12,7 @@ export const translations = {
     },
     // Hero Section
     hero: {
-      title: 'Capture o Momento Certo',
+      title: 'Organize os Momentos que Importam',
       subtitle: 'καιρός',
       description:
         'Organize os seus eventos e ideias num único lugar. O Kairos ajuda-o a capturar e gerir os momentos importantes da sua vida.',
@@ -99,7 +99,7 @@ export const translations = {
     },
     // Hero Section
     hero: {
-      title: 'Capture the Right Moment',
+      title: 'Organize the Moments that Matter',
       subtitle: 'καιρός',
       description:
         'Organize your events and ideas in one place. Kairos helps you capture and manage the important moments of your life.',

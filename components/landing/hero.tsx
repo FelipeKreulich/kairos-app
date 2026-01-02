@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/components/providers/language-provider'
 import { Button } from '@/components/ui/button'
+import { WavyBackground } from '@/components/ui/wavy-background'
 import { ArrowRight, Play } from 'lucide-react'
 
 export function Hero() {
@@ -11,8 +12,10 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24">
-      {/* Background gradient */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
+      {/* Wavy Background */}
+      <div className="absolute inset-0 -z-10">
+        <WavyBackground />
+      </div>
 
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
@@ -22,7 +25,9 @@ export function Hero() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="mb-2 text-4xl font-bold tracking-tight sm:text-6xl md:text-7xl">
-              {t.hero.title}
+              <span className="bg-gradient-to-r from-blue-500 via-pink-500 to-orange-500 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                {t.hero.title}
+              </span>
             </h1>
             <p className="mb-6 text-2xl font-light text-muted-foreground sm:text-3xl md:text-4xl">
               {t.hero.subtitle}
@@ -44,18 +49,30 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
-            <Button size="lg" asChild className="group">
-              <Link href="/register">
-                {t.hero.cta}
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="#demo">
-                <Play className="mr-2 h-4 w-4" />
-                {t.hero.secondaryCta}
-              </Link>
-            </Button>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <Button size="lg" asChild className="group">
+                <Link href="/register">
+                  {t.hero.cta}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <Button size="lg" variant="outline" asChild>
+                <Link href="#demo">
+                  <Play className="mr-2 h-4 w-4" />
+                  {t.hero.secondaryCta}
+                </Link>
+              </Button>
+            </motion.div>
           </motion.div>
 
           {/* Decorative elements */}
