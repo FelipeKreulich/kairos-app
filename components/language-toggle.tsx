@@ -13,6 +13,15 @@ import {
 
 export function LanguageToggle() {
   const { locale, setLocale } = useLanguage()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <Button variant="ghost" size="icon" className="h-9 w-9" />
+  }
 
   return (
     <DropdownMenu>
