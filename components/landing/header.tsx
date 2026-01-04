@@ -24,31 +24,10 @@ export function Header() {
           <span className="text-xl font-bold">Kairos</span>
         </Link>
 
-        <nav className="hidden items-center space-x-6 md:flex">
-          <Link
-            href="#features"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            {t.nav.features}
-          </Link>
-          <Link
-            href="#pricing"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            {t.nav.pricing}
-          </Link>
-          <Link
-            href="#about"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            {t.nav.about}
-          </Link>
-        </nav>
-
         <div className="flex items-center space-x-2">
           <ThemeToggle />
           <LanguageToggle />
-          <Button variant="ghost" asChild className="hidden md:inline-flex">
+          <Button variant="ghost" asChild className="hidden sm:inline-flex">
             <Link href="/login">{t.nav.login}</Link>
           </Button>
           <Button asChild>
