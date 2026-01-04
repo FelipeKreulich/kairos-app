@@ -14,7 +14,7 @@
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx}": [
-			"eslint --fix"
+			"cross-env NODE_OPTIONS=--max-old-space-size=8192 eslint --fix"
 		]
 	},
 	"dependencies": {
@@ -56,6 +56,7 @@
 		"dotenv": "^17.2.3",
 		"embla-carousel-react": "^8.6.0",
 		"framer-motion": "^12.23.26",
+		"gsap": "^3.14.2",
 		"input-otp": "^1.4.2",
 		"lucide-react": "^0.562.0",
 		"motion": "^12.23.26",
@@ -69,8 +70,10 @@
 		"react-hook-form": "^7.69.0",
 		"react-resizable-panels": "^4.0.16",
 		"recharts": "^2.15.4",
+		"simplex-noise": "^4.0.3",
 		"sonner": "^2.0.7",
 		"tailwind-merge": "^3.4.0",
+		"three": "^0.182.0",
 		"vaul": "^1.1.2",
 		"zod": "^4.2.1"
 	},
@@ -86,6 +89,7 @@
 		"@types/pg": "^8.16.0",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
+		"cross-env": "^10.1.0",
 		"eslint": "^9.39.2",
 		"eslint-config-next": "16.1.1",
 		"eslint-plugin-react": "^7.37.5",
